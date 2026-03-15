@@ -1,0 +1,106 @@
+/* RESET LEAFLET POPUP */
+    .leaflet-popup-content-wrapper {
+        padding: 0 !important;
+        border-radius: 12px !important; /* Ujung sedikit lebih lembut */
+        overflow: hidden !important;
+        box-shadow: 0 10px 25px rgba(0, 74, 135, 0.15) !important;
+        border: none !important;
+    }
+    
+    .leaflet-popup-content {
+        margin: 0 !important;
+        width: 230px !important; /* Dipersempit agar tidak memakan tempat */
+    }
+
+    .leaflet-container a.leaflet-popup-close-button {
+        color: #ffffff !important;
+        top: 6px !important;
+        right: 6px !important;
+        padding: 4px !important;
+        z-index: 10;
+        text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    }
+
+    /* COMPACT CARD STYLE */
+    .premium-popup {
+        background: #ffffff;
+        font-family: 'Inter', sans-serif;
+        text-align: center;
+    }
+
+    /* Banner Atas (Lebih tipis) */
+    .popup-cover {
+        background: linear-gradient(135deg, #004a87, #0284c7);
+        height: 45px; /* Jauh lebih tipis */
+        width: 100%;
+    }
+
+    /* Foto Profil (Lebih kecil) */
+    .popup-avatar {
+        margin-top: -28px; /* Disesuaikan dengan banner baru */
+        position: relative;
+        display: inline-block;
+    }
+
+    .popup-avatar img {
+        width: 56px; /* Diperkecil dari 75px */
+        height: 56px;
+        border-radius: 50%;
+        border: 3px solid #ffffff; /* Garis putih lebih tipis */
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        background: #ffffff;
+        object-fit: cover;
+    }
+
+    /* Bagian Konten/Teks (Padding dikurangi) */
+    .popup-body {
+        padding: 5px 15px 15px 15px;
+    }
+
+    .popup-name {
+        margin: 0 0 2px 0;
+        font-size: 15px; /* Teks lebih pas */
+        font-weight: 700;
+        color: #1e293b;
+    }
+
+    .popup-year {
+        font-size: 11px;
+        color: #64748b;
+        display: block;
+        margin-bottom: 12px;
+    }
+
+    /* Info Pekerjaan (Tanpa kotak abu-abu agar lebih bersih) */
+    .popup-info {
+        text-align: left;
+        padding-top: 10px;
+        margin-bottom: 12px;
+        border-top: 1px solid #f1f5f9; /* Garis pemisah tipis */
+    }
+
+    .info-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        font-size: 11px;
+        color: #475569;
+        margin-bottom: 6px;
+        line-height: 1.3;
+    }
+    
+    .info-row .icon { font-size: 12px; margin-top: 1px; }
+
+    /* Lencana Status (Lebih ramping) */
+    .popup-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 50px;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .badge-linier { background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; }
+    .badge-tidak { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }

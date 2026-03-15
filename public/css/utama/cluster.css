@@ -1,0 +1,29 @@
+/* --- PANEL KONTROL CLUSTER MENGAMBANG --- */
+.cluster-control-panel {
+    position: absolute;
+    top: 15px;
+    right: 15px; /* Mengambang di pojok kanan atas */
+    z-index: 1000; /* Pastikan di atas layer peta Leaflet */
+    background-color: #ffffff;
+    padding: 8px 12px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    border: 2px solid rgba(0,0,0,0.2);
+}
+.cluster-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #004a87;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* --- TOGGLE SWITCH KUSTOM --- */
+.switch-kustom { position: relative; display: inline-block; width: 44px; height: 24px; margin: 0; }
+.switch-kustom input { opacity: 0; width: 0; height: 0; }
+.slider-kustom { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .3s; border-radius: 24px; }
+.slider-kustom:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%; }
+.switch-kustom input:checked + .slider-kustom { background-color: #0284c7; }
+.switch-kustom input:checked + .slider-kustom:before { transform: translateX(20px); }

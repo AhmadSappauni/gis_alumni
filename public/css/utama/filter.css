@@ -1,0 +1,362 @@
+/* Panel Pembungkus Utama (Glassmorphism Effect) */
+.filter-panel {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 9999;
+    
+    /* Efek Transparansi Kaca */
+    background: rgba(255, 255, 255, 0.85); /* Putih transparan 85% */
+    backdrop-filter: blur(12px); /* Efek buram pada peta di belakangnya */
+    -webkit-backdrop-filter: blur(12px); /* Dukungan untuk browser Safari */
+    
+    border: 1px solid rgba(255, 255, 255, 0.6); /* Pantulan cahaya di pinggiran */
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0, 74, 135, 0.15); /* Bayangan biru super lembut */
+    width: 320px;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
+
+    display: flex;
+    flex-direction: column;
+    max-height: 85vh;
+}
+
+/* Area Konten yang Bisa Digulir */
+.scrollable-content {
+    overflow-y: auto; /* Memunculkan scroll otomatis jika konten melebihi batas */
+    flex: 1; /* Area ini akan melar mengisi sisa ruang di bawah pencarian */
+}
+
+/* Mempercantik Scrollbar agar tipis dan elegan */
+.scrollable-content::-webkit-scrollbar { width: 5px; }
+.scrollable-content::-webkit-scrollbar-thumb { 
+    background: rgba(0, 74, 135, 0.3); /* Scrollbar biru transparan */
+    border-radius: 10px; 
+}
+
+/* Header Biru Pilkom (Gradasi Mewah) */
+.panel-header {
+    /* Gradasi dari biru tua ke biru muda cerah */
+    background: linear-gradient(135deg, #004a87 0%, #0284c7 100%);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header-text h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 800;
+    color: #ffffff; /* Teks Putih */
+    letter-spacing: 1px;
+}
+
+.header-text p {
+    margin: 3px 0 0 0;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.75);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Tombol Toggle (Kuning Pilkom) */
+.toggle-btn {
+    background: #fdb813;
+    border: none;
+    border-radius: 8px;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #004a87; /* Warna ikon biru */
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.toggle-btn:hover {
+    background: #ffc93d;
+    transform: scale(1.05);
+}
+
+/* --- CSS ANIMASI FILTER YANG BENAR --- */
+
+/* Body Filter */
+.filter-body {
+    padding: 10px 20px 20px 20px;
+    background: transparent; /* Biarkan efek kaca terlihat */
+    
+    display: grid;
+    grid-template-rows: 1fr;
+    transition: all 0.3s ease-in-out;
+    opacity: 1;
+    overflow: hidden;
+}
+
+/* Membungkus isi di dalam filter-body (HANYA UNTUK KEPERLUAN ANIMASI GRID) */
+.filter-body-inner {
+    min-height: 0; 
+}
+
+/* SAAT KELAS HIDDEN AKTIF */
+.filter-body.hidden {
+    grid-template-rows: 0fr; /* Mengecilkan tinggi menjadi 0 */
+    padding-top: 0;
+    padding-bottom: 0;
+    opacity: 0;
+    margin: 0;
+    border: none;
+}
+
+/* Container Pencarian */
+.search-container {
+    padding: 15px 20px 5px 20px;
+    background: transparent; /* Biarkan efek kaca dari panel utama terlihat */
+}
+/* Kolom Pencarian & Flexbox */
+.search-box { 
+    margin-bottom: 0; 
+    display: flex; /* Membuat input dan tombol sejajar */
+    gap: 8px; /* Jarak antara input dan tombol */
+}
+
+/* Kolom Input Pencarian */
+.search-box input {
+    flex: 1;
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 50px;
+    background: rgba(241, 245, 249, 0.6); /* Transparan keabu-abuan */
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(203, 213, 225, 0.5);
+    color: #1e293b;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    outline: none;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.search-box input:focus {
+    border-color: #004a87;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(0, 74, 135, 0.1);
+}
+
+/* Desain Tombol Cari (Biru Pilkom) */
+.search-action-btn {
+    background: #004a87;
+    color: #ffffff;
+    border: none;
+    border-radius: 50px;
+    width: 45px; /* Lebar tombol */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.search-action-btn:hover {
+    background: #fdb813; /* Berubah jadi kuning pilkom saat disorot */
+    color: #004a87;
+    box-shadow: 0 4px 10px rgba(0, 74, 135, 0.2);
+}
+
+/* Label & Tombol Pill */
+.filter-section { margin-bottom: 16px; }
+
+/* --- CUSTOM DROPDOWN GLASSMORPHISM --- */
+
+/* Wrapper Utama */
+.custom-dropdown-wrapper {
+    width: 100%;
+    margin-bottom: 5px; /* Memberi sedikit ruang dorongan */
+    box-sizing: border-box;
+}
+
+/* Tombol Dropdown (Yang terlihat) */
+.custom-dropdown-trigger {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background-color: rgba(248, 250, 252, 0.7); /* Kaca transparan */
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(203, 213, 225, 0.6);
+    color: #1e293b;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.custom-dropdown-trigger:hover, .custom-dropdown-trigger.active {
+    border-color: #004a87;
+    background-color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 0 0 3px rgba(0, 74, 135, 0.1);
+}
+
+/* Tanda Panah V Custom */
+.custom-dropdown-trigger .arrow {
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid #004a87;
+    border-bottom: 2px solid #004a87;
+    transform: rotate(45deg) translateY(-2px);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Panah terbalik saat menu terbuka */
+.custom-dropdown-trigger.active .arrow {
+    transform: rotate(225deg) translateY(0px) translateX(-3px);
+}
+
+/* Kotak Daftar Pilihan (Berubah menjadi Accordion Mendorong ke Bawah) */
+.custom-dropdown-options {
+    box-sizing: border-box;
+    width: 100%;
+    margin-top: 6px;
+    background: rgba(255, 255, 255, 0.85); 
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(203, 213, 225, 0.5);
+    border-radius: 8px;
+    overflow: hidden; /* Mencegah warna tumpah dari sudut melengkung */
+    
+    /* Ganti sifat melayang menjadi sifat mendorong */
+    display: none; 
+}
+
+/* Saat menu terbuka */
+.custom-dropdown-options.open {
+    display: block;
+    animation: menuMuncul 0.2s ease forwards;
+}
+
+/* Animasi Muncul Halus */
+@keyframes menuMuncul {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Desain Pilihan di Dalamnya */
+.custom-option {
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+}
+
+.custom-option:last-child {
+    border-bottom: none;
+}
+
+.custom-option:hover {
+    background: rgba(224, 242, 254, 0.7); /* Sorotan biru muda lembut */
+    color: #004a87;
+    padding-left: 18px; /* Efek teks maju sedikit saat disorot */
+}
+
+/* Pilihan yang sedang aktif */
+.custom-option.selected {
+    background: #004a87;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+/* Input Teks Khusus di dalam Filter Dropdown */
+.custom-input {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background-color: rgba(248, 250, 252, 0.7);
+    border: 1px solid rgba(203, 213, 225, 0.6);
+    color: #1e293b;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    outline: none;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+}
+
+.custom-input:focus {
+    border-color: #fdb813;
+    box-shadow: 0 0 0 3px rgba(253, 184, 19, 0.2);
+    background-color: #ffffff;
+}
+
+/* Penyesuaian Label agar lebih rapi dengan Dropdown */
+.filter-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: #004a87;
+    margin-bottom: 6px; /* Jarak dirapatkan sedikit */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Container Daftar Hasil (Diperbarui) */
+.results-container {
+    padding: 0 20px 15px 20px;
+}
+
+/* Custom Scrollbar agar terlihat rapi */
+.results-container::-webkit-scrollbar { width: 5px; }
+.results-container::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+/* Teks Jumlah Data */
+.result-count {
+    font-size: 11px;
+    font-weight: 600;
+    color: #64748b;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+/* Kartu Alumni */
+.result-card {
+    background: rgba(255, 255, 255, 0.5); /* Kartu semi transparan */
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    border-left: 4px solid #004a87; 
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.result-card:hover {
+    background: rgba(255, 255, 255, 0.9); /* Terang saat disorot mouse */
+    border-color: #004a87;
+    transform: translateX(4px);
+    box-shadow: 0 4px 12px rgba(0, 74, 135, 0.1);
+}
+
+.result-name { font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 3px; }
+.result-job { font-size: 11px; color: #475569; }
+
+/* Label Linearitas di dalam kartu */
+.result-status {
+    display: inline-block;
+    margin-top: 6px;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+.status-linier { background: #e0f2fe; color: #0284c7; }
+.status-tidak { background: #fee2e2; color: #b91c1c; }
+
+/* Jika tidak ada data */
+.result-empty { font-size: 12px; color: #ef4444; text-align: center; padding: 10px; }

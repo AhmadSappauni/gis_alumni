@@ -9,10 +9,12 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('alumnis', function (Blueprint $table) {
-            $table->id();
+            $table->string('nim')->primary(); // NIM jadi Primary Key
+            $table->string('nama_lengkap');
+            $table->year('tahun_lulus');
             $table->timestamps();
         });
     }

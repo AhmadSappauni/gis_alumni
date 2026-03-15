@@ -1,0 +1,57 @@
+/* --- VARIABEL WARNA PILKOM ULM (DISETEL KE PREMIUM) --- */
+:root {
+    /* Warna Dasar: Biru Pilkom (Sesuai dengan UI Peta) */
+    --pilkom-blue-dark: #004a87;
+    --pilkom-blue-semi: rgba(
+        0,
+        74,
+        135,
+        0.98
+    ); /* Opasitas dinaikkan jadi 98% agar pekat dan tidak pucat! */
+
+    /* Warna Aksen: Kuning Emas ULM */
+    --pilkom-yellow: #fdb813;
+    --pilkom-yellow-hover: #e0a400;
+
+    /* Warna Netral & Kaca */
+    --glass-card: rgba(
+        255,
+        255,
+        255,
+        0.6
+    ); /* Sedikit lebih putih agar tabelnya bersih */
+    --glass-border: rgba(255, 255, 255, 0.8);
+
+    /* Warna Teks */
+    --text-on-dark: #ffffff;
+    --text-on-light: #1e293b;
+    --text-secondary: #64748b;
+}
+
+/* --- RESET & DASAR --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    /* Latar belakang kita ganti menjadi sangat netral (soft gray), agar kartunya melayang mewah */
+    background: #f1f5f9;
+    min-height: 100vh;
+    display: flex;
+    color: var(--text-on-light);
+    padding: 20px;
+    gap: 25px;
+}
+
+/* --- CLASS GLASSMORPHISM MURNI --- */
+.glass-panel {
+    background: var(--glass-card);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px 0 rgba(0, 54, 102, 0.05); /* Bayangan biru tua halus */
+    border-radius: 24px;
+}

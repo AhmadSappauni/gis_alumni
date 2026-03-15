@@ -1,0 +1,91 @@
+/* --- SIDEBAR MENGAMBANG WARNA PILKOM (GLASS) --- */
+.sidebar {
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+    padding: 30px 20px;
+    height: calc(100vh - 40px);
+    position: sticky;
+    top: 20px;
+
+    /* Kita gunakan warna Biru Pilkom transparan */
+    background: var(--pilkom-blue-semi);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-brand {
+    text-align: center;
+    margin-bottom: 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 20px;
+}
+.sidebar-brand h2 {
+    font-weight: 800;
+    font-size: 22px;
+    color: var(--text-on-dark);
+    line-height: 1.2;
+}
+.sidebar-brand h2 span {
+    color: var(--pilkom-yellow);
+} /* Aksen Kuning pada teks */
+.sidebar-brand p {
+    font-size: 11px;
+    color: #cbd5e1;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 5px;
+}
+
+.nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+}
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    text-decoration: none;
+    color: #cbd5e1; /* Warna teks sidebar netral saat tidak aktif */
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: 16px;
+    transition: all 0.3s ease;
+}
+.nav-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
+    color: white;
+}
+.nav-item.active {
+    /* Warna Aktif: Kuning Emas */
+    background: var(--pilkom-yellow);
+    color: var(--pilkom-blue-dark);
+    box-shadow: 0 4px 15px rgba(253, 184, 19, 0.3);
+    border: none;
+}
+
+.sidebar-footer {
+    margin-top: auto;
+}
+.btn-kembali {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 14px;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-on-dark);
+    text-decoration: none;
+    border-radius: 16px;
+    font-weight: 600;
+    font-size: 13px;
+    transition: 0.3s;
+}
+.btn-kembali:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
