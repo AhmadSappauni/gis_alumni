@@ -62,28 +62,32 @@
                         @endif
 
                         <div class="action-buttons">
-                            <a href="#" class="btn-icon edit" title="Edit Data">
+                            <button class="btn-icon view" onclick="showAlumniDetail({{ json_encode($alumni) }})" title="Lihat Profil Lengkap">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                            </button>
+                            <a href="{{ route('admin.alumni.edit', $alumni->nim) }}" class="btn-icon edit" title="Edit Data">
                                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z">
                                     </path>
                                 </svg>
                             </a>
-                            <a href="#" class="btn-icon delete" title="Hapus Data">
+                            <button type="button" class="btn-icon delete" 
+                                    onclick="confirmDelete('{{ $alumni->nim }}', '{{ $alumni->nama_lengkap }}')" 
+                                    title="Hapus Data">
                                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                    </path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                                 </svg>
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </div>
             @endforeach
         </div>
-        <div class="pagination-wrapper"
-            style="padding: 15px 25px; border-top: 1px solid rgba(0,0,0,0.05); background: rgba(255,255,255,0.5);">
-            {{ $dataAlumni->links() }}
+        <div class="pagination-footer d-flex justify-content-between align-items-center" style="padding: 15px 25px; border-top: 1px solid rgba(0,0,0,0.05); background: rgba(255,255,255,0.3);">
+            <div class="pagination-links">
+                {{ $dataAlumni->links('pagination::bootstrap-5') }}
+            </div>
         </div>
         <div id="card-empty" class="no-results" style="display: none;">
             <span class="no-results-icon">🔍</span>
@@ -125,18 +129,21 @@
                             <td>{{ $alumni->pekerjaan->jabatan ?? '-' }}</td>
                             <td>
                                 <div style="display: flex; justify-content: center; gap: 8px;">
-                                    <a href="#" class="action-btn-small edit"><svg width="14" height="14"
+                                    <button class="action-btn-small view" onclick="showAlumniDetail({{ json_encode($alumni) }})">
+                                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                                    </button>
+                                    <a href="{{ route('admin.alumni.edit', $alumni->nim) }}" class="action-btn-small edit"><svg width="14" height="14"
                                             fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                                             <path
                                                 d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z">
                                             </path>
                                         </svg></a>
-                                    <button class="action-btn-small delete"><svg width="14" height="14"
-                                            fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                            <path
-                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                            </path>
-                                        </svg></button>
+                                    <button type="button" class="action-btn-small delete" 
+                                            onclick="confirmDelete('{{ $alumni->nim }}', '{{ $alumni->nama_lengkap }}')">
+                                        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                            <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                        </svg>
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -154,9 +161,10 @@
                 </tbody>
             </table>
         </div>
-        <div class="pagination-wrapper"
-            style="padding: 15px 25px; border-top: 1px solid rgba(0,0,0,0.05); background: rgba(255,255,255,0.5);">
-            {{ $dataAlumni->links() }}
+        <div class="pagination-footer d-flex justify-content-between align-items-center" style="padding: 15px 25px; border-top: 1px solid rgba(0,0,0,0.05); background: rgba(255,255,255,0.3);">
+            <div class="pagination-links">
+                {{ $dataAlumni->links('pagination::bootstrap-5') }}
+            </div>
         </div>
     </div>
 </main>

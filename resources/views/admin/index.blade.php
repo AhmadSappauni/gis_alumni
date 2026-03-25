@@ -33,6 +33,8 @@
     background: #f1f5f9; /* Sesuaikan dengan warna background card */
     box-shadow: inset 0 -1px 0 rgba(0,0,0,0.05);
 }
+
+
 </style>
 @endpush
 
@@ -103,4 +105,33 @@
 @endsection
 @push('scripts')
 <script src="{{ asset('js/admin/filter-data.js') }}"></script>
+<script>
+function confirmDelete(nim, nama) {
+    Swal.fire({
+        title: 'Apakah Anda yakin?',
+        text: "Data alumni " + nama + " (NIM: " + nim + ") akan dihapus permanen!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#64748b',
+        confirmButtonText: 'Ya, Hapus!',
+        cancelButtonText: 'Batal',
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Buat form dinamis
+            let form = document.createElement('form');
+            form.action = `/admin/alumni/${nim}`;
+            form.method = 'POST';
+            form.innerHTML = `
+                @csrf
+                @method('DELETE')
+            `;
+            document.body.appendChild(form);
+            form.submit();
+        }
+    })
+}
+
+</script>
 @endpush

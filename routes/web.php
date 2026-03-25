@@ -13,6 +13,9 @@ Route::prefix('admin')->group(function () {
     
     Route::get('/alumni/create', [AdminAlumniController::class, 'create'])->name('admin.alumni.create');
     Route::post('/alumni/store', [AdminAlumniController::class, 'store'])->name('admin.alumni.store');
+    Route::delete('/alumni/{nim}', [AdminAlumniController::class, 'destroy'])->name('admin.alumni.destroy');
+    Route::get('/alumni/{nim}/edit', [AdminAlumniController::class, 'edit'])->name('admin.alumni.edit');
+    Route::put('/alumni/{nim}', [AdminAlumniController::class, 'update'])->name('admin.alumni.update');
 
 });
 Route::post('/admin/check-nim', [AdminAlumniController::class, 'checkNim'])

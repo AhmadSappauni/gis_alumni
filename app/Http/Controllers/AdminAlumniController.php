@@ -171,4 +171,85 @@ class AdminAlumniController extends Controller
             'skip' => $skip
         ]);
     }
+    public function destroy($nim)
+    {
+        try {
+            $alumni = Alumni::where('nim', $nim)->firstOrFail();
+
+            // 1. Hapus Foto Profil jika ada di storage
+            if ($alumni->foto_profil && Storage::disk('public')->exists($alumni->foto_profil)) {
+                Storage::disk('public')->delete($alumni->foto_profil);
+            }
+
+            // 2. Hapus data (Relasi Pekerjaan akan ikut terhapus jika di DB diset Cascade, 
+            // jika tidak, kita hapus manual di sini)
+            DB::transaction(function () use ($alumni) {
+                $alumni->pekerjaan()->delete(); // Hapus data di tabel pekerjaans
+                $alumni->delete(); // Hapus data di tabel alumnis
+            });
+
+            return redirect()->route('admin.alumni.index')->with('success', 'Data alumni berhasil dihapus!');
+            
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal menghapus data: ' . $e->getMessage());
+        }
+    }
+    public function edit($nim)
+    {
+        $alumni = Alumni::with('pekerjaan')->where('nim', $nim)->firstOrFail();
+        return view('admin.edit', compact('alumni'));
+    }
+
+    public function update(Request $request, $nim)
+    {
+        $alumni = Alumni::where('nim', $nim)->firstOrFail();
+
+        $request->validate([
+            'nim' => 'required|unique:alumnis,nim,' . $alumni->nim . ',nim',
+            'nama_lengkap' => 'required',
+            'tahun_lulus' => 'required|numeric',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+        ]);
+
+        $fotoPath = $alumni->foto_profil;
+
+        // Jika ada upload foto baru
+        if ($request->hasFile('foto')) {
+            // Hapus foto lama jika ada
+            if ($alumni->foto_profil) {
+                Storage::disk('public')->delete($alumni->foto_profil);
+            }
+            $fotoPath = $request->file('foto')->store('alumni_foto', 'public');
+        }
+
+        try {
+            DB::transaction(function () use ($request, $alumni, $fotoPath) {
+                // Update data Alumni
+                $alumni->update([
+                    'nim' => $request->nim,
+                    'nama_lengkap' => $request->nama_lengkap,
+                    'angkatan' => $request->angkatan,
+                    'tahun_lulus' => $request->tahun_lulus,
+                    'judul_skripsi' => $request->judul_skripsi,
+                    'foto_profil' => $fotoPath
+                ]);
+
+                // Update data Pekerjaan (Gunakan update NIM jika NIM berubah)
+                $alumni->pekerjaan()->update([
+                    'nim' => $request->nim,
+                    'nama_perusahaan' => $request->nama_perusahaan,
+                    'jabatan' => $request->jabatan,
+                    'bidang_pekerjaan' => $request->bidang,
+                    'linearitas' => $request->linearitas,
+                    'kota' => $request->kota,
+                    'latitude' => $request->latitude,
+                    'longitude' => $request->longitude,
+                ]);
+            });
+
+            return redirect()->route('admin.alumni.index')->with('success', 'Data berhasil diperbarui!');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal update: ' . $e->getMessage())->withInput();
+        }
+    }
 }
