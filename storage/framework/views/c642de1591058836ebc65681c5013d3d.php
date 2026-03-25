@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/admin-style.css') }}">
+    <link rel="stylesheet" href="<?php echo e(asset('css/admin-style.css')); ?>">
     
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
-    @stack('styles')
+    <?php echo $__env->yieldPushContent('styles'); ?>
 
     <style>
     body {
@@ -176,38 +176,38 @@
 </head>
 
 <body>
-    @include('admin.komponen.sidebar')
-    @include('admin.komponen.modal-profil')
+    <?php echo $__env->make('admin.komponen.sidebar', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
+    <?php echo $__env->make('admin.komponen.modal-profil', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
     <main class="main-content">
-        @yield('content')
+        <?php echo $__env->yieldContent('content'); ?>
     </main>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <!-- Script dari halaman -->
-    @stack('scripts')
-    @if(session('success'))
+    <?php echo $__env->yieldPushContent('scripts'); ?>
+    <?php if(session('success')): ?>
     <script>
     Swal.fire({
         icon: 'success',
         title: 'Data berhasil disimpan',
-        text: '{{ session("success") }}',
+        text: '<?php echo e(session("success")); ?>',
         confirmButtonColor:'#004a87',
         timer:2000,
         showConfirmButton:false
     });
     </script>
-    @endif
+    <?php endif; ?>
 
-    @if(session('error'))
+    <?php if(session('error')): ?>
     <script>
     Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: '{{ session("error") }}'
+        text: '<?php echo e(session("error")); ?>'
     });
     </script>
-    @endif
+    <?php endif; ?>
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -298,4 +298,4 @@ document.addEventListener('DOMContentLoaded', function() {
     </script>
     
 </body>
-</html>
+</html><?php /**PATH D:\Aplikasi_Skripsi\gis-alumni\resources\views/admin/layout.blade.php ENDPATH**/ ?>

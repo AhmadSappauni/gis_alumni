@@ -157,6 +157,8 @@ function updateReview() {
     // Ambil semua value
     let nama = document.querySelector("input[name='nama_lengkap']").value;
     let nim = document.querySelector("input[name='nim']").value;
+    let email = document.querySelector("input[name='email']").value; // Tambahan
+    let no_hp = document.querySelector("input[name='no_hp']").value;
     let angkatan = document.querySelector("input[name='angkatan']").value;
     let tahun = document.querySelector("input[name='tahun_lulus']").value;
     let perusahaan = document.querySelector("input[name='nama_perusahaan']").value;
@@ -172,10 +174,10 @@ function updateReview() {
         document.getElementById("review-box").style.display = "block";
         
         document.getElementById("review_nama").innerText = nama;
-        document.getElementById("review_nim").innerText = nim;
+        document.getElementById("review_nim").innerText = `${nim} | ${email}`;
         document.getElementById("review_angkatan_lulus").innerText = `${angkatan} / ${tahun}`;
         document.getElementById("review_perusahaan").innerText = perusahaan || "-";
-        document.getElementById("review_jabatan").innerText = jabatan || "-";
+        document.getElementById("review_jabatan").innerText = `${jabatan} (${no_hp})`;;
         document.getElementById("review_kota").innerText = kota || "Lokasi belum dipilih pada peta";
         document.getElementById("review_coords").innerText = `${lat}, ${lng}`;
     } else {

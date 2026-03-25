@@ -33,6 +33,8 @@ class AdminAlumniController extends Controller
         $request->validate([
             'nim' => 'required|unique:alumnis,nim',
             'nama_lengkap' => 'required',
+            'email' => 'nullable|email',
+            'no_hp' => 'nullable|numeric',
             'tahun_lulus' => 'required|numeric',
             'nama_perusahaan' => 'required',
             'jabatan' => 'required',
@@ -54,6 +56,8 @@ class AdminAlumniController extends Controller
                 Alumni::create([
                     'nim' => $request->nim,
                     'nama_lengkap' => $request->nama_lengkap,
+                    'email' => $request->email,
+                    'no_hp' => $request->no_hp,
                     'angkatan' => $request->angkatan,
                     'tahun_lulus' => $request->tahun_lulus,
                     'judul_skripsi' => $request->judul_skripsi,
@@ -120,17 +124,42 @@ class AdminAlumniController extends Controller
     public function importStore(Request $request)
     {
         $rows = json_decode($request->rows, true);
-
         $success = 0;
         $skip = 0;
 
         foreach ($rows as $row) {
-
             $nim = $row[0];
 
             if (Alumni::where('nim', $nim)->exists()) {
                 $skip++;
                 continue;
+            }
+
+            $lokasiPencarian = $row[5] ?? $row[3] ?? null; 
+            $lat = null;
+            $lng = null;
+            
+            if ($lokasiPencarian && $lokasiPencarian !== '-') {
+                try {
+                    // Proses Geocoding via Nominatim API
+                    $response = \Illuminate\Support\Facades\Http::withHeaders([
+                        'User-Agent' => 'WebGIS-Alumni-ULM' // Wajib ada User-Agent
+                    ])->get("https://nominatim.openstreetmap.org/search", [
+                        'q'      => $lokasiPencarian,
+                        'format' => 'json',
+                        'limit'  => 1
+                    ]);
+
+                    if ($response->successful() && isset($response->json()[0])) {
+                        $lat = $response->json()[0]['lat'];
+                        $lng = $response->json()[0]['lon'];
+                    }
+                    
+                    // Jeda 0.5 detik agar tidak melanggar aturan Nominatim (Max 1 req/sec)
+                    usleep(500000); 
+                } catch (\Exception $e) {
+                    // Jika gagal, biarkan lat & lng tetap null
+                }
             }
 
             $rawLinearitas = $row[6] ?? 'Tidak Linier';
@@ -143,6 +172,8 @@ class AdminAlumniController extends Controller
             Alumni::create([
                 'nim' => $row[0],
                 'nama_lengkap' => $row[1],
+                'email' => $row[7] ?? null,
+                'no_hp' => $row[8] ?? null,
                 'tahun_lulus' => $row[2],
                 'angkatan' => null,
                 'judul_skripsi' => null,
@@ -159,8 +190,8 @@ class AdminAlumniController extends Controller
                 'alamat_lengkap' => $row[5] ?? '-',
                 'link_linkedin' => null,
                 'linearitas' => $fixLinearitas,
-                'latitude' => null,
-                'longitude' => null
+                'latitude' => $lat,
+                'longitude' => $lng,
             ]);
 
             $success++;
@@ -228,6 +259,8 @@ class AdminAlumniController extends Controller
                 $alumni->update([
                     'nim' => $request->nim,
                     'nama_lengkap' => $request->nama_lengkap,
+                    'email' => $request->email,
+                    'no_hp' => $request->no_hp,
                     'angkatan' => $request->angkatan,
                     'tahun_lulus' => $request->tahun_lulus,
                     'judul_skripsi' => $request->judul_skripsi,

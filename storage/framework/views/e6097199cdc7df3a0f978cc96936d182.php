@@ -71,4 +71,4 @@
             <button class="btn-tutup-modal" id="btn-tutup-bawah">Tutup Jendela</button>
         </div>
     </div>
-</div>
+</div><?php /**PATH D:\Aplikasi_Skripsi\gis-alumni\resources\views/admin/komponen/modal-profil.blade.php ENDPATH**/ ?>

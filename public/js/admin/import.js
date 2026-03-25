@@ -84,39 +84,60 @@ dropArea.addEventListener('drop', (e) => {
     }
 });
 
-// Event 3: Tombol Simpan ke Database
+// Event 3: Tombol Simpan ke Database (Ditingkatkan)
 if (importBtn) {
     importBtn.addEventListener("click", function () {
-        this.disabled = true;
-        this.innerText = "Sedang memproses...";
+        // Tampilkan konfirmasi SweetAlert agar lebih pro
+        Swal.fire({
+            title: 'Mulai Import?',
+            text: `Sistem akan memproses ${excelRows.length} data dan mencari lokasi otomatis.`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#004a87',
+            confirmButtonText: 'Ya, Mulai!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // LOCK UI agar tidak klik dua kali
+                this.disabled = true;
+                this.innerHTML = `<span class="spinner-border-sm"></span> Sedang memproses lokasi & menyimpan...`;
 
-        let formData = new FormData();
-        formData.append("rows", JSON.stringify(excelRows));
+                let formData = new FormData();
+                formData.append("rows", JSON.stringify(excelRows));
 
-        fetch("/admin/alumni/import-store", {
-            method: "POST",
-            headers: {
-                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
-            },
-            body: formData,
-        })
-        .then((res) => res.json())
-        .then((data) => {
-            const resultDiv = document.getElementById("import-result");
-            resultDiv.style.display = "block";
-            document.getElementById("result-text").innerHTML = `
-                ✔ <b>${data.success}</b> data berhasil diimport.<br>
-                ⚠ <b>${data.skip}</b> data NIM sudah ada (dilewati).
-            `;
-            
-            this.style.display = "none"; // sembunyikan tombol jika sukses
-            window.scrollTo(0, document.body.scrollHeight);
-        })
-        .catch((err) => {
-            console.error(err);
-            alert("Terjadi error saat menyimpan data.");
-            this.disabled = false;
-            this.innerText = "Mulai Import Data";
+                fetch("/admin/alumni/import-store", {
+                    method: "POST",
+                    headers: {
+                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+                    },
+                    body: formData,
+                })
+                .then((res) => res.json())
+                .then((data) => {
+                    const resultDiv = document.getElementById("import-result");
+                    resultDiv.style.display = "block";
+                    resultDiv.className = "result-success"; // Pastikan class hijau
+                    
+                    document.getElementById("result-text").innerHTML = `
+                        ✔ <b>${data.success}</b> data berhasil diimport & dipetakan.<br>
+                        ⚠ <b>${data.skip}</b> data NIM sudah ada (dilewati).
+                    `;
+                    
+                    this.style.display = "none"; // Sembunyikan tombol
+                    
+                    Swal.fire('Selesai!', 'Data alumni dan lokasi berhasil disimpan.', 'success');
+                    
+                    window.scrollTo({
+                        top: document.body.scrollHeight,
+                        behavior: 'smooth'
+                    });
+                })
+                .catch((err) => {
+                    console.error(err);
+                    Swal.fire('Error', 'Terjadi kesalahan saat menyimpan data.', 'error');
+                    this.disabled = false;
+                    this.innerText = "Mulai Import Data";
+                });
+            }
         });
     });
 }
